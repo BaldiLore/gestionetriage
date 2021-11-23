@@ -20,5 +20,7 @@ public interface DottoreService {
 	void delete(Dottore input);
 	
 	Dottore findByCodice(String codice);
+	
+	Dottore inserisciNuovo(Dottore dottore);
 
 }

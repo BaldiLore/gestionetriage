@@ -31,8 +31,7 @@ public class DottoreServiceImpl implements DottoreService {
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public Page<Dottore> searchAndPaginate(Dottore dottoreExample, Integer pageNo, Integer pageSize,
-			String sortBy) {
+	public Page<Dottore> searchAndPaginate(Dottore dottoreExample, Integer pageNo, Integer pageSize, String sortBy) {
 
 		Specification<Dottore> specificationCriteria = (root, query, cb) -> {
 
@@ -42,14 +41,18 @@ public class DottoreServiceImpl implements DottoreService {
 				predicates.add(cb.like(cb.upper(root.get("nome")), "%" + dottoreExample.getNome().toUpperCase() + "%"));
 
 			if (!StringUtils.isEmpty(dottoreExample.getCognome()))
-				predicates.add(cb.like(cb.upper(root.get("cognome")), "%" + dottoreExample.getCognome().toUpperCase() + "%"));
+				predicates.add(
+						cb.like(cb.upper(root.get("cognome")), "%" + dottoreExample.getCognome().toUpperCase() + "%"));
 
 			if (!StringUtils.isEmpty(dottoreExample.getCodiceDipendente()))
-				predicates.add(cb.like(cb.upper(root.get("codiceDipendente")), "%" + dottoreExample.getCodiceDipendente().toUpperCase() + "%"));
+				predicates.add(cb.like(cb.upper(root.get("codiceDipendente")),
+						"%" + dottoreExample.getCodiceDipendente().toUpperCase() + "%"));
 
-			if(dottoreExample.getPazienteAttualmenteInVisita() != null && dottoreExample.getPazienteAttualmenteInVisita().getId() != null)
-				predicates.add(cb.like(cb.upper(root.get("pazienteAttualmenteInVisita")), "%" + dottoreExample.getPazienteAttualmenteInVisita() + "%"));
-			
+			if (dottoreExample.getPazienteAttualmenteInVisita() != null
+					&& dottoreExample.getPazienteAttualmenteInVisita().getId() != null)
+				predicates.add(cb.like(cb.upper(root.get("pazienteAttualmenteInVisita")),
+						"%" + dottoreExample.getPazienteAttualmenteInVisita() + "%"));
+
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 		};
 
@@ -78,5 +81,10 @@ public class DottoreServiceImpl implements DottoreService {
 	public Dottore findByCodice(String codice) {
 		return dottoreRepository.findByCodiceDipendente(codice);
 	}
-	
+
+	@Override
+	public Dottore inserisciNuovo(Dottore dottore) {
+		return dottoreRepository.save(dottore);
+	}
+
 }
