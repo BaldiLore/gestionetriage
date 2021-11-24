@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import it.prova.gestionetriage.model.Dottore;
 import it.prova.gestionetriage.model.Paziente;
 import it.prova.gestionetriage.model.StatoPaziente;
+import it.prova.gestionetriage.model.StatoUtente;
 import it.prova.gestionetriage.service.DottoreService;
 import it.prova.gestionetriage.service.PazienteService;
 import it.prova.gestionetriage.security.repository.AuthorityRepository;
@@ -85,6 +86,7 @@ public class GestionetriageApplication {
 				user.setUsername("admin");
 				user.setPassword(passwordEncoder.encode("admin"));
 				user.setEmail("admin@example.com");
+				user.setStatoUtente(StatoUtente.ATTIVO);
 
 				user = userRepository.save(user);
 
@@ -113,6 +115,7 @@ public class GestionetriageApplication {
 				commonUser.setUsername("operator");
 				commonUser.setPassword(passwordEncoder.encode("operator"));
 				commonUser.setEmail("operatore@example.com");
+				commonUser.setStatoUtente(StatoUtente.ATTIVO);
 
 				commonUser = userRepository.save(commonUser);
 

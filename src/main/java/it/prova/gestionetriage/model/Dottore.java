@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Dottore {
 
@@ -24,6 +26,7 @@ public class Dottore {
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "paziente_id", referencedColumnName = "id")
+	@JsonIgnoreProperties(value = { "dottore" })
 	private Paziente pazienteAttualmenteInVisita;
 
 	public Dottore() {
