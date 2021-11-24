@@ -1,6 +1,8 @@
 package it.prova.gestionetriage.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import it.prova.gestionetriage.model.Dottore;
 
 public class DottoreDTO {
@@ -9,7 +11,7 @@ public class DottoreDTO {
 	private String nome;
 	private String cognome;
 	private String codiceDipendente;
-
+	@JsonIgnoreProperties(value = { "dottore" })
 	private PazienteDTO pazienteAttualmenteInVisita;
 
 	public DottoreDTO() {
@@ -75,11 +77,21 @@ public class DottoreDTO {
 	}
 	
 	public Dottore buildDottoreModel() {
+		
+		if(this.pazienteAttualmenteInVisita == null)
+			return new Dottore(this.id, this.nome, this.cognome, this.codiceDipendente,
+					null);
+		
 		return new Dottore(this.id, this.nome, this.cognome, this.codiceDipendente,
 				this.pazienteAttualmenteInVisita.buildPazienteModel());
 	}
 
 	public static DottoreDTO buildDottoreDTOFromModel(Dottore input) {
+		
+		if(input.getPazienteAttualmenteInVisita() == null)
+			return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(),
+					null);
+		
 		return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(),
 				PazienteDTO.buildPazienteDTOFromModel(input.getPazienteAttualmenteInVisita()));
 	}

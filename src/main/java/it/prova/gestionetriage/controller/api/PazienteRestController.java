@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.gestionetriage.exceptions.PazienteNotFoundException;
 import it.prova.gestionetriage.model.Paziente;
+import it.prova.gestionetriage.model.StatoPaziente;
 import it.prova.gestionetriage.service.PazienteService;
 
 @RestController
@@ -51,6 +52,7 @@ public class PazienteRestController {
 
 	@PostMapping
 	public Paziente createNewPaziente(@RequestBody Paziente pazienteInput) {
+		pazienteInput.setStatoPaziente(StatoPaziente.IN_ATTESA_VISITA);
 		return pazienteService.save(pazienteInput);
 	}
 
@@ -73,6 +75,11 @@ public class PazienteRestController {
 
 	@DeleteMapping("/{id}")
 	public void deletePaziente(@PathVariable(required = true) Long id) {
-		pazienteService.delete(pazienteService.get(id));
+		Paziente paziente = pazienteService.get(id);
+		
+		if(paziente.getStatoPaziente().equals(StatoPaziente.DIMESSO))
+			pazienteService.delete(paziente);
+		else
+			throw new PazienteNotFoundException("Il paziente non è stato dimesso");
 	}
 }

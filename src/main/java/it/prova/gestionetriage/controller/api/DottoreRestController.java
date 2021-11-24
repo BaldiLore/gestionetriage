@@ -87,7 +87,7 @@ public class DottoreRestController {
 			throw new DottoreNotFoundException("Dottore non presente");
 
 		ResponseEntity<DottoreResponseDTO> response = webClient.post().uri("")
-				.body(Mono.just(new DottoreRequestDTO(dottoreInput.getId(), dottoreInput.getNome(),
+				.body(Mono.just(new DottoreRequestDTO(dottoreInput.getNome(),
 						dottoreInput.getCognome(), dottoreInput.getCodiceDipendente())), DottoreRequestDTO.class)
 				.retrieve().toEntity(DottoreResponseDTO.class).block();
 

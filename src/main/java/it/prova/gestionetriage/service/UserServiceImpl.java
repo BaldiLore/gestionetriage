@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 
 import it.prova.gestionetriage.exceptions.UserNotFoundException;
 import it.prova.gestionetriage.model.User;
-import it.prova.gestionetriage.repository.UserRepository;
+import it.prova.gestionetriage.security.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService{

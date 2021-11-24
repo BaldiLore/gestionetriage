@@ -2,6 +2,8 @@ package it.prova.gestionetriage.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import it.prova.gestionetriage.model.Paziente;
 import it.prova.gestionetriage.model.StatoPaziente;
 
@@ -13,6 +15,7 @@ public class PazienteDTO {
 	private String codiceFiscale;
 	private Date dataRegistrazione;
 	private StatoPaziente statoPaziente;
+	@JsonIgnoreProperties(value = { "pazienteAttualmenteInVisita" })
 	private DottoreDTO dottore;
 
 	public PazienteDTO() {
@@ -105,11 +108,22 @@ public class PazienteDTO {
 	}
 
 	public Paziente buildPazienteModel() {
+		
+		if(this.dottore.buildDottoreModel() == null)
+			return new Paziente(this.id, this.nome, this.cognome, this.codiceFiscale, this.dataRegistrazione,
+					this.statoPaziente, null);
+		
 		return new Paziente(this.id, this.nome, this.cognome, this.codiceFiscale, this.dataRegistrazione,
 				this.statoPaziente, this.dottore.buildDottoreModel());
 	}
 
 	public static PazienteDTO buildPazienteDTOFromModel(Paziente input) {
+		
+		if(input.getDottore() == null)
+			return new PazienteDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceFiscale(),
+					input.getDataRegistrazione(), input.getStatoPaziente(),
+					null);
+		
 		return new PazienteDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceFiscale(),
 				input.getDataRegistrazione(), input.getStatoPaziente(),
 				DottoreDTO.buildDottoreDTOFromModel(input.getDottore()));
